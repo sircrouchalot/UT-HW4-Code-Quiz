@@ -1,0 +1,17 @@
+#highScores {
+    position: fixed;
+    left: 0;
+    margin-left: 15px;
+}
+
+#timer {
+    position: fixed;
+    right: 0;
+    margin-right: 15px;
+}
+
+#quizArea {
+    margin: 100px 500px;
+    text-align: center;
+}
+

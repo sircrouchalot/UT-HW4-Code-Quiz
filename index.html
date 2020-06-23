@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Quiz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <header>
+        <div class="row">
+            <div id="highScores">
+                <a href="./highScores.html">View High Scores</a>
+            </div>
+            <span id="timer">
+                Time:
+            </span>
+        </div>
+    </header>
+
+    <div id="quizArea">
+        <h1 id="question">Code Quiz!</h1>
+        <p id= "questionBody">You will be asked a series of coding related questions. You have 60 seconds to answer every question. If you
+            answer correctly, you will move to the next question. If you answer incorrectly, you will lose 10 seconds.
+            Your final score is your time left on the clock.</p>
+        <button type="button" id="startButton" class="btn btn-primary">Start Quiz!</button>
+    </div>
+    <script src="./script.js"></script>
+</body>
+
+</html>
