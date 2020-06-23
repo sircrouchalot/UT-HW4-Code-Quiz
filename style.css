@@ -1,17 +1,26 @@
+header {
+    display: block;
+    margin: 10px 0;
+}
+
+button {
+    margin: 20px auto;
+}
+
 #highScores {
     position: fixed;
     left: 0;
-    margin-left: 15px;
+    margin-left: 10px;
 }
 
 #timer {
     position: fixed;
     right: 0;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 #quizArea {
-    margin: 100px 500px;
+    margin: 100px 300px;
     text-align: center;
 }
 
