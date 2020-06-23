@@ -1,51 +1,130 @@
 var startButtonEl = document.querySelector("#startButton");
 var timeEl = document.querySelector("#timer");
 var questionEl = document.querySelector("#question");
-var questionBodyEl = document.querySelector("#questionBody");
+var descriptionEl = document.querySelector("#quizDescription");
+var answersEl = document.querySelector("#answers");
+var areaEl = document.querySelector("#quizArea");
+
+var correctText = document.createElement("div");
+
 
 var time = 60;
+var score = 0;
 var qIndex = 0;
+var userAnswer = "";
+
 var questions = [
 	{
-		title: "Which of these is not an animal?",
-		choices: ["cat", "dog", "bird", "tree"],
-		answer: "tree"
+		title: "Question 1: What attribute assigns a 'value' or 'selector' to one, specific element?",
+		choices: ["class", "id", "name", "img"],
+		answer: "id"
 	},
 	{
-		title: "Which of these is a State?",
-		choices: ["Guam", "Kansas", "American Samoa", "Puerto Rico"],
-		answer: "Kansas"
+		title: "Question 2: What tag is used to create links?",
+		choices: ["<body>", "<img>", "<a>", "<div>"],
+		answer: "<a>"
+	},
+	{
+		title: "Question 3: What function creates a random number from 0 to almost 1",
+		choices: ["Math.random()", "Math.floor()", "setInterval()", "function()"],
+		answer: "Math.random()"
+	},
+	{
+		title: "Question 4: What variable type stores a list of values?",
+		choices: ["integer", "float", "string", "array"],
+		answer: "array"
+	},
+	{
+		title: "Question 5: What does JSON stand for?",
+		choices: ["JavaScript Object Notation", "Jeremy said Oh No", "JavaScript Orientation Notes", "JavaScript Or Not"],
+		answer: "JavaScript Object Notation"
 	}
 ]
 
-// function createChoices(array) {
-//     for (var i = 0; i < questions[qIndex].choices.length; i++) {
-//         var choice = document.createElement("button");
-//         choice.textContent = questions[qIndex].choices[i];
-//         questionBodyEl.textContent = "";
-//         questionBodyEl.appendChild(choice);
-//     }
-// }
+
+// Populates the list of answers
+function createChoices(array) {
+	answersEl.innerHTML = "";
+	questionEl.textContent = questions[qIndex].title;
+	for (var i = 0; i < questions[qIndex].choices.length; i++) {
+		var choice = document.createElement("button");
+		choice.setAttribute("class", "choice d-block btn btn-outline-primary");
+		choice.setAttribute("id", questions[qIndex].choices[i]);
+		choice.textContent = questions[qIndex].choices[i];
+		answersEl.appendChild(choice);
+	}
+}
 
 timeEl.textContent = "Time: " + time;
 
 // Counts the timer down from 60
 function timer() {
-    setInterval(function(){
-        timeEl.textContent = ("Time: " + --time);
-    }, 1000 )
+	setInterval(function () {
+		timeEl.textContent = ("Time: " + --time);
+	}, 1000)
 }
 
 // Listens for the start button to be clicked and starts the timer
-startButtonEl.addEventListener("click", function() {
-    timer();
-    questionEl.textContent = questions[0].title;
-    // createChoices(questions);
+startButtonEl.addEventListener("click", function () {
+	startButtonEl.setAttribute("class", "d-none btn btn-primary")
+	timer();
+	descriptionEl.textContent = "";
+
+	createChoices(questions);
 
 
 })
 
-// Once the timer reaches 0
-if (time == 0) {
+// Checks the answer selected against the correct answer.
+function checkAnswer(answer) {
+	answerText = answer.textContent;
+	var correctAnswer = questions[qIndex].answer;
+	console.log(answerText);
 
+	// If correct, it moves to the next questions after the user receives feedback that their answer was correct.
+	if (answerText === correctAnswer) {
+		correctText.setAttribute("style", "font-style: italic; border-top: 1px solid lightgrey");
+		correctText.textContent = "Correct!";
+		answersEl.append(correctText);
+		setTimeout(function () {
+			answersEl.innerHTML = "";
+			correctText.textContent = "";
+			qIndex++;
+			createChoices();
+
+		}, 1500);
+		// If the answer is incorrect, the user receives the feed back and loses time.
+	} else {
+		time = time - 10;
+		correctText.setAttribute("style", "font-style: italic; border-top: 1px solid lightgrey");
+		correctText.textContent = "Incorrect!";
+		answersEl.append(correctText);
+		setTimeout(function () {
+			correctText.textContent = "";
+		}, 1500);
+	}
+
+
+	timer.clearInterval();
+	areaEl.innerHTML = "";
+
+}
+
+// Controls when an answer is clicked
+answersEl.addEventListener("click", function () {
+
+	var targetButton = event.target;
+	console.log(targetButton);
+	checkAnswer(targetButton);
+})
+
+
+
+
+
+
+
+// Once the timer reaches 0 or we run out of questions
+if (time == 0 || qIndex === questions.length) {
+	timer.clearInterval();
 }
