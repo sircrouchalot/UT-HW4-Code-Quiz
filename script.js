@@ -59,7 +59,8 @@ function createChoices(array) {
 // Counts the timer down from 60
 function timer() {
 	interval = setInterval(function () {
-		timeEl.textContent = ("Time: " + --time);
+		--time;
+		timeEl.textContent = ("Time: " + time);
 	}, 1000)
 }
 
@@ -71,43 +72,103 @@ startButtonEl.addEventListener("click", function () {
 	createChoices(questions);
 })
 
+function timeCheck() {
+	if (time <= 0) {
+		questionEl.textContent = "Finished!";
+		descriptionEl.textContent = "";
+		answersEl.innerHTML = "";
+		clearInterval(interval);
+		// Records left over time to score
+		score = time;
+		finish();
+	}
+}
+
 // Checks the answer selected against the correct answer.
 function checkAnswer(answer) {
 	answerText = answer.textContent;
 	var correctAnswer = questions[qIndex].answer;
-	
+
 	// If correct, it moves to the next questions after the user receives feedback that their answer was correct.
 	if (answerText === correctAnswer) {
 		correctText.setAttribute("style", "font-style: italic; border-top: 1px solid lightgrey");
 		correctText.textContent = "Correct!";
 		answersEl.append(correctText);
 		qIndex++;
-		if (time !== 0 && qIndex !== questions.length) {
+		if (time > 0 && qIndex !== questions.length) {
 			setTimeout(function () {
 				answersEl.innerHTML = "";
 				correctText.textContent = "";
+				correctText.setAttribute("style", "border-top: 0;");
 				createChoices();
-	
+
 			}, 1500);
 		} else {
-			areaEl.innerHTML = "";
+			questionEl.textContent = "Finished!";
+			descriptionEl.textContent = "";
+			answersEl.innerHTML = "";
 			clearInterval(interval);
 			// Records left over time to score
 			score = time;
+			finish();
 
 		}
-		
-		
+
+
 		// If the answer is incorrect, the user receives the feed back and loses time.
 	} else {
 		time = time - 10;
+		timeCheck();
 		correctText.setAttribute("style", "font-style: italic; border-top: 1px solid lightgrey");
 		correctText.textContent = "Incorrect!";
 		answersEl.append(correctText);
 		setTimeout(function () {
 			correctText.textContent = "";
+			correctText.setAttribute("style", "border-top: 0;");
 		}, 1500);
-	}	
+	}
+}
+
+
+
+function finish() {
+
+	var formEl = document.createElement("form");
+	formEl.setAttribute("id", "inputForm");
+	var labelEl = document.createElement("label");
+	var inputEl = document.createElement("input");
+	var inputForm = document.getElementById("inputForm");
+
+	descriptionEl.innerHTML = "Your score: " + score;
+
+	labelEl.setAttribute("id", "initials");
+	inputEl.setAttribute("type", "text");
+
+	labelEl.textContent = "Enter Initials: ";
+	descriptionEl.appendChild(formEl);
+	formEl.appendChild(labelEl);
+	formEl.appendChild(inputEl);
+
+	// var highScoreCount = 0;
+
+	function saveData(event) {
+		event.preventDefault();
+		alert("Submitted!");
+		var inputInitials = document.getElementById("initials");
+		var user = {
+			userinitials: inputInitials.value.trim(),
+			userScore: score
+		}
+		// highScoreCount++;
+
+		// localStorage.setItem("highScore" + highScoreCount, user);
+	}
+	console.log(inputForm);
+	console.log(inputEl);
+
+	document.addEventListener('DOMContentLoaded', function () {
+		inputForm.addEventListener("submit", saveData);
+	});
 }
 
 // Controls when an answer is clicked
