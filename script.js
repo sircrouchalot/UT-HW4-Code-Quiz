@@ -1,12 +1,11 @@
-var startButtonEl = document.querySelector("#startButton");
 var timeEl = document.querySelector("#timer");
+var areaEl = document.querySelector("#quizArea");
 var questionEl = document.querySelector("#question");
 var descriptionEl = document.querySelector("#quizDescription");
 var answersEl = document.querySelector("#answers");
-var areaEl = document.querySelector("#quizArea");
+var startButtonEl = document.querySelector("#startButton");
 
 var correctText = document.createElement("div");
-
 
 var time = 60;
 var score = 0;
@@ -41,6 +40,8 @@ var questions = [
 	}
 ]
 
+timeEl.textContent = "Time: " + time;
+
 
 // Populates the list of answers
 function createChoices(array) {
@@ -55,11 +56,9 @@ function createChoices(array) {
 	}
 }
 
-timeEl.textContent = "Time: " + time;
-
 // Counts the timer down from 60
 function timer() {
-	setInterval(function () {
+	interval = setInterval(function () {
 		timeEl.textContent = ("Time: " + --time);
 	}, 1000)
 }
@@ -69,30 +68,36 @@ startButtonEl.addEventListener("click", function () {
 	startButtonEl.setAttribute("class", "d-none btn btn-primary")
 	timer();
 	descriptionEl.textContent = "";
-
 	createChoices(questions);
-
-
 })
 
 // Checks the answer selected against the correct answer.
 function checkAnswer(answer) {
 	answerText = answer.textContent;
 	var correctAnswer = questions[qIndex].answer;
-	console.log(answerText);
-
+	
 	// If correct, it moves to the next questions after the user receives feedback that their answer was correct.
 	if (answerText === correctAnswer) {
 		correctText.setAttribute("style", "font-style: italic; border-top: 1px solid lightgrey");
 		correctText.textContent = "Correct!";
 		answersEl.append(correctText);
-		setTimeout(function () {
-			answersEl.innerHTML = "";
-			correctText.textContent = "";
-			qIndex++;
-			createChoices();
+		qIndex++;
+		if (time !== 0 && qIndex !== questions.length) {
+			setTimeout(function () {
+				answersEl.innerHTML = "";
+				correctText.textContent = "";
+				createChoices();
+	
+			}, 1500);
+		} else {
+			areaEl.innerHTML = "";
+			clearInterval(interval);
+			// Records left over time to score
+			score = time;
 
-		}, 1500);
+		}
+		
+		
 		// If the answer is incorrect, the user receives the feed back and loses time.
 	} else {
 		time = time - 10;
@@ -102,29 +107,11 @@ function checkAnswer(answer) {
 		setTimeout(function () {
 			correctText.textContent = "";
 		}, 1500);
-	}
-
-
-	timer.clearInterval();
-	areaEl.innerHTML = "";
-
+	}	
 }
 
 // Controls when an answer is clicked
 answersEl.addEventListener("click", function () {
-
 	var targetButton = event.target;
-	console.log(targetButton);
 	checkAnswer(targetButton);
 })
-
-
-
-
-
-
-
-// Once the timer reaches 0 or we run out of questions
-if (time == 0 || qIndex === questions.length) {
-	timer.clearInterval();
-}
