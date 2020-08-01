@@ -27,7 +27,4 @@ npm start
 no tests
 ```
 
-## Demo
-
-![demo](./demo/NoteTaker.gif)
 
