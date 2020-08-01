@@ -7,6 +7,10 @@ button {
     margin: 20px auto;
 }
 
+#scores {
+    margin: 0 25px;
+}
+
 #highScores {
     position: fixed;
     left: 0;
@@ -21,6 +25,16 @@ button {
 
 #quizArea {
     margin: 100px 300px;
+    text-align: center;
+}
+
+#highScoresDiv {
+    margin: 0 auto;
+    text-align: center;
+}
+
+#highScoresDiv h1 {
+    margin: 30px auto;
     text-align: center;
 }
 

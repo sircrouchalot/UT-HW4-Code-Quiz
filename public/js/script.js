@@ -138,37 +138,50 @@ function finish() {
 	var labelEl = document.createElement("label");
 	var inputEl = document.createElement("input");
 	var inputForm = document.getElementById("inputForm");
+	var submitEl = document.createElement("input");
 
 	descriptionEl.innerHTML = "Your score: " + score;
 
 	labelEl.setAttribute("id", "initials");
 	inputEl.setAttribute("type", "text");
+	submitEl.setAttribute("type", "submit")
+	submitEl.setAttribute("value", "Submit");
 
 	labelEl.textContent = "Enter Initials: ";
 	descriptionEl.appendChild(formEl);
 	formEl.appendChild(labelEl);
 	formEl.appendChild(inputEl);
+	formEl.appendChild(submitEl);
 
 	// var highScoreCount = 0;
 
 	function saveData(event) {
 		event.preventDefault();
+		event.stopPropagation();
 		alert("Submitted!");
-		var inputInitials = document.getElementById("initials");
+		// var inputInitials = document.getElementById("initials");
 		var user = {
-			userinitials: inputInitials.value.trim(),
-			userScore: score
+			initials: inputEl.value.trim(),
+			score: score
 		}
+		console.log(user);
 		// highScoreCount++;
+		$.post("/api/highscores", user, function() {
+			window.location.href = "/highscores";
+		})
+		
 
 		// localStorage.setItem("highScore" + highScoreCount, user);
 	}
-	console.log(inputForm);
-	console.log(inputEl);
+	// console.log(inputForm);
+	// console.log(formEl);
 
-	document.addEventListener('DOMContentLoaded', function () {
-		inputForm.addEventListener("submit", saveData);
-	});
+	formEl.addEventListener("submit", saveData);
+
+	// document.addEventListener('DOMContentLoaded', function () {
+	// 	debugger;
+	// 	.addEventListener("submit", saveData);
+	// });
 }
 
 // Controls when an answer is clicked

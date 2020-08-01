@@ -1,0 +1,27 @@
+{
+  "name": "code-quiz",
+  "version": "1.0.0",
+  "description": "short coding quiz that stores high schores in sql database",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sircrouchalot/UT-HW4-Code-Quiz.git"
+  },
+  "author": "Alex Crouch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sircrouchalot/UT-HW4-Code-Quiz/issues"
+  },
+  "homepage": "https://github.com/sircrouchalot/UT-HW4-Code-Quiz#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^4.41.2"
+  }
+}
